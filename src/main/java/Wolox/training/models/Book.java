@@ -1,54 +1,47 @@
 package Wolox.training.models;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Book {
-
-    @PersistenceConstructor
-    public Book(Long id, String genre, String author, String image, String title,
-            String subtitle,
-            String publisher, String year, Integer pages, String isbn) {
-        this.id = id;
-        this.genre = genre;
-        this.author = author;
-        this.image = image;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.publisher = publisher;
-        this.year = year;
-        this.pages = pages;
-        this.isbn = isbn;
-    }
 
     public Book() {
         super();
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @Column(nullable = true)
     private String genre;
+    @NotNull
     @Column(nullable = false)
     private String author;
+    @NotNull
     @Column(nullable = false)
     private String image;
+    @NotNull
     @Column(nullable = false)
     private String title;
+    @NotNull
     @Column(nullable = false)
     private String subtitle;
+    @NotNull
     @Column(nullable = false)
     private String publisher;
+    @NotNull
     @Column(nullable = false)
     private String year;
+    @NotNull
     @Column(nullable = false)
     private Integer pages;
+    @NotNull
     @Column(nullable = false)
     private String isbn;
 
