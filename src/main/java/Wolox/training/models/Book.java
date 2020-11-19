@@ -11,7 +11,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 public class Book {
 
     @PersistenceConstructor
-    public Book(Integer id, String genre, String author, String image, String title,
+    public Book(Long id, String genre, String author, String image, String title,
             String subtitle,
             String publisher, String year, Integer pages, String isbn) {
         this.id = id;
@@ -32,7 +32,7 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     @Column(nullable = true)
     private String genre;
     @Column(nullable = false)
@@ -124,11 +124,11 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }
