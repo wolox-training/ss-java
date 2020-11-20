@@ -1,5 +1,6 @@
 package Wolox.training.controllers;
 
+import Wolox.training.commons.Constants;
 import Wolox.training.models.Book;
 import Wolox.training.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +31,20 @@ public class BookController {
     public void delete(@PathVariable Long id) {
         bookRepository.findById(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                Constants.NOT_FOUND));
         bookRepository.deleteById(id);
     }
 
     @PutMapping("/{id}")
     public Book updateBook(@RequestBody Book book, @PathVariable Long id) {
         if (book.getId() != id) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book and id incorrect");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, Constants.INCORRECT);
         }
         bookRepository.findById(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                Constants.NOT_FOUND));
         return bookRepository.save(book);
     }
 
@@ -54,6 +57,7 @@ public class BookController {
     public Book findOne(@PathVariable Long id) {
         return bookRepository.findById(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                Constants.NOT_FOUND));
     }
 }
