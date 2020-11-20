@@ -1,5 +1,6 @@
 package Wolox.training.controllers;
 
+import Wolox.training.commons.Constants;
 import Wolox.training.models.Book;
 import Wolox.training.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,40 +21,72 @@ public class BookController {
     @Autowired
     private BookRepository bookRepository;
 
+    /**
+     * this method create a book
+     *
+     * @param book
+     * @return
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Book create(@RequestBody Book book) {
         return bookRepository.save(book);
     }
 
+    /**
+     * This method delete a book by id
+     *
+     * @param id
+     */
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         bookRepository.findById(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                Constants.NOT_FOUND));
         bookRepository.deleteById(id);
     }
 
+    /**
+     * This method update book information by id
+     *
+     * @param book
+     * @param id
+     * @return
+     */
     @PutMapping("/{id}")
     public Book updateBook(@RequestBody Book book, @PathVariable Long id) {
         if (book.getId() != id) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book and id incorrect");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, Constants.INCORRECT);
         }
         bookRepository.findById(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                Constants.NOT_FOUND));
         return bookRepository.save(book);
     }
 
+    /**
+     * This method return all books
+     *
+     * @return
+     */
     @GetMapping
     public Iterable findAll() {
         return bookRepository.findAll();
     }
 
+    /**
+     * This method return a book by id
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public Book findOne(@PathVariable Long id) {
         return bookRepository.findById(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found"));
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                Constants.NOT_FOUND));
     }
 }

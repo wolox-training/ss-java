@@ -14,6 +14,9 @@ public class Book {
     public Book() {
     }
 
+    /**
+     * Primary key of Book entity
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -40,6 +43,9 @@ public class Book {
     @NotNull
     @Column(nullable = false)
     private Integer pages;
+    /**
+     * Unique identification for books
+     */
     @NotNull
     @Column(nullable = false)
     private String isbn;
