@@ -34,10 +34,9 @@ public class BookController {
     }
 
     /**
-     * this method create a book
+     * This method delete a book by id
      *
-     * @param book
-     * @return
+     * @param id
      */
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
@@ -68,10 +67,8 @@ public class BookController {
     }
 
     /**
-     * This method update book information by id
+     * This method return all books
      *
-     * @param book
-     * @param id
      * @return
      */
     @GetMapping
