@@ -104,6 +104,7 @@ public class User {
      * This method remove a book the collection user
      *
      * @param book
+     * @throws BookAlreadyOwnedException
      */
     public void removeBook(Book book) throws BookAlreadyOwnedException {
         if (books.stream().anyMatch(item -> item.getId().compareTo(book.getId()) != 0)) {
