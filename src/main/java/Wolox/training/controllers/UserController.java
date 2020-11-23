@@ -99,6 +99,7 @@ public class UserController {
 
     /**
      * This method create a book from user
+     *
      * @param idBook
      * @param idUser
      */
@@ -112,12 +113,13 @@ public class UserController {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         Constants.NOT_FOUND));
 
-        ((User) user).addBook(book);
+        user.addBook(book);
         userRepository.save(user);
     }
 
     /**
      * This method remove a book from user
+     *
      * @param idBook
      * @param idUser
      */
@@ -131,7 +133,7 @@ public class UserController {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         Constants.NOT_FOUND));
 
-        ((User) user).removeBook(book);
+        user.removeBook(book);
         userRepository.save(user);
     }
 }
