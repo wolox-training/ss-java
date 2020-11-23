@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -43,9 +42,7 @@ public class User {
     private LocalDate birthdate;
     @NotNull
     @Column(nullable = false)
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_book", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<Book> books = new ArrayList<Book>();
 
     public String getUserName() {
@@ -90,7 +87,7 @@ public class User {
      * @param book
      * @throws BookAlreadyOwnedException
      */
-    public void saveBook(Book book) throws BookAlreadyOwnedException {
+    public void addBook(Book book) throws BookAlreadyOwnedException {
         if (!books.isEmpty()) {
             if (books.stream().anyMatch(item -> item.getId().compareTo(book.getId()) == 0)) {
                 books.add(book);
@@ -108,7 +105,7 @@ public class User {
      *
      * @param book
      */
-    public void deleteBook(Book book) {
+    public void removeBook(Book book) throws BookAlreadyOwnedException {
         if (books.stream().anyMatch(item -> item.getId().compareTo(book.getId()) != 0)) {
             books.remove(book);
         } else {
