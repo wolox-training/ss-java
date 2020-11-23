@@ -5,6 +5,9 @@ import Wolox.training.models.Book;
 import Wolox.training.models.User;
 import Wolox.training.repositories.BookRepository;
 import Wolox.training.repositories.UserRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/user")
+@Api
 public class UserController {
 
     @Autowired
@@ -90,7 +94,9 @@ public class UserController {
      * @return
      */
     @GetMapping("/{id}")
-    public User findOne(@PathVariable Long id) {
+    @ApiOperation(value = "Giving and id, return the user", response = User.class)
+    public User findOne(
+            @ApiParam(value = "id to find the user", required = true) @PathVariable Long id) {
         return userRepository.findById(id)
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -99,6 +105,7 @@ public class UserController {
 
     /**
      * This method create a book from user
+     *
      * @param idBook
      * @param idUser
      */
@@ -118,6 +125,7 @@ public class UserController {
 
     /**
      * This method remove a book from user
+     *
      * @param idBook
      * @param idUser
      */

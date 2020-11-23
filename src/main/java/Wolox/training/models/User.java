@@ -2,6 +2,8 @@ package Wolox.training.models;
 
 import Wolox.training.commons.Constants;
 import Wolox.training.exceptions.BookAlreadyOwnedException;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +23,7 @@ import org.springframework.http.HttpStatus;
 
 @Entity
 @Table(name = "users")
+@ApiModel(description = "Entity Class User from training")
 public class User {
 
     public User() {
@@ -37,6 +40,7 @@ public class User {
     private String userName;
     @NotNull
     @Column(nullable = false)
+    @ApiModelProperty(notes = "Parameter name the user")
     private String name;
     @NotNull
     @Column(nullable = false)
