@@ -90,7 +90,7 @@ public class User {
      * @param book
      * @throws BookAlreadyOwnedException
      */
-    public void saveBook(Book book) throws BookAlreadyOwnedException {
+    public void addBook(Book book) throws BookAlreadyOwnedException {
         if (!books.isEmpty()) {
             if (books.stream().anyMatch(item -> item.getId().compareTo(book.getId()) == 0)) {
                 books.add(book);
@@ -107,8 +107,9 @@ public class User {
      * This method remove a book the collection user
      *
      * @param book
+     * @throws BookAlreadyOwnedException
      */
-    public void deleteBook(Book book) {
+    public void removeBook(Book book) throws BookAlreadyOwnedException {
         if (books.stream().anyMatch(item -> item.getId().compareTo(book.getId()) != 0)) {
             books.remove(book);
         } else {
