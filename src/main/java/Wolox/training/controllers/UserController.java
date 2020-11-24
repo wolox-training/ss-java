@@ -109,7 +109,7 @@ public class UserController {
      * @param idBook
      * @param idUser
      */
-    @PostMapping("book/{idBook}/user/{idUser}")
+    @PostMapping("/{idUser}/book/{idBook}")
     public void createUserBook(@PathVariable(name = "idBook") Long idBook,
             @PathVariable(name = "idUser") Long idUser) {
         User user = userRepository.findById(idUser).orElseThrow(
@@ -129,7 +129,7 @@ public class UserController {
      * @param idBook
      * @param idUser
      */
-    @DeleteMapping("book/{idBook}/user/{idUser}")
+    @DeleteMapping("/{idUser}/book/{idBook}")
     public void removeUserBook(@PathVariable(name = "idBook") Long idBook,
             @PathVariable(name = "idUser") Long idUser) {
         User user = userRepository.findById(idUser).orElseThrow(

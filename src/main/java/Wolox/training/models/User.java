@@ -99,12 +99,13 @@ public class User {
      */
     public void addBook(Book book) throws BookAlreadyOwnedException {
         if (!books.isEmpty()) {
-            if (books.stream().anyMatch(item -> item.getId().compareTo(book.getId()) == 0)) {
-                books.add(book);
-            } else {
-                throw new BookAlreadyOwnedException(HttpStatus.PRECONDITION_FAILED,
-                        Constants.ALREADY_EXISTS);
-            }
+            books.stream().forEach(item -> {
+                if (item.getId().compareTo(book.getId()) == 0) {
+                    throw new BookAlreadyOwnedException(HttpStatus.PRECONDITION_FAILED,
+                            Constants.ALREADY_EXISTS);
+                }
+            });
+            books.add(book);
         } else {
             throw new BookAlreadyOwnedException(HttpStatus.NOT_FOUND, Constants.NOT_FOUND);
         }
@@ -117,7 +118,7 @@ public class User {
      * @throws BookAlreadyOwnedException
      */
     public void removeBook(Book book) throws BookAlreadyOwnedException {
-        if (books.stream().anyMatch(item -> item.getId().compareTo(book.getId()) != 0)) {
+        if (books.stream().anyMatch(item -> item.getId().compareTo(book.getId()) == 0)) {
             books.remove(book);
         } else {
             throw new BookAlreadyOwnedException(HttpStatus.NOT_FOUND, Constants.NOT_FOUND);
