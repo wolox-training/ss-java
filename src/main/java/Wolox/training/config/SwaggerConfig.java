@@ -25,8 +25,8 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiEndPointsInfo() {
-        return new ApiInfoBuilder().title("Recipes REST API")
-                .description("REST API that retrieves recipes from a list of ingredients")
+        return new ApiInfoBuilder().title("training REST API")
+                .description("REST API that retrieves information of users and books")
                 .contact(new Contact("Sebastian Sopo Martinez",
                         "https://github.com/SsopoWolox", "sebstian.sopo@wolox.co"))
                 .license("Apache 2.0")
