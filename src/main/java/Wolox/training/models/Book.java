@@ -1,7 +1,9 @@
 package Wolox.training.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,6 +54,7 @@ public class Book {
     @NotNull
     @Column(nullable = false)
     private String isbn;
+    @JsonIgnore
     @ManyToMany(mappedBy = "books")
     private List<User> users;
 
@@ -60,8 +63,7 @@ public class Book {
     }
 
     public void setGenre(String genre) {
-        Preconditions.checkNotNull(genre);
-        Preconditions.checkArgument(genre.isEmpty());
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(genre));
         this.genre = genre;
     }
 
@@ -70,8 +72,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        Preconditions.checkNotNull(author);
-        Preconditions.checkArgument(author.isEmpty());
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(author));
         this.author = author;
     }
 
@@ -80,8 +81,7 @@ public class Book {
     }
 
     public void setImage(String image) {
-        Preconditions.checkNotNull(image);
-        Preconditions.checkArgument(image.isEmpty());
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(image));
         this.image = image;
     }
 
@@ -90,8 +90,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
-        Preconditions.checkNotNull(title);
-        Preconditions.checkArgument(title.isEmpty());
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(title));
         this.title = title;
     }
 
@@ -100,8 +99,7 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
-        Preconditions.checkNotNull(subtitle);
-        Preconditions.checkArgument(subtitle.isEmpty());
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(subtitle));
         this.subtitle = subtitle;
     }
 
@@ -110,8 +108,7 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
-        Preconditions.checkNotNull(publisher);
-        Preconditions.checkArgument(publisher.isEmpty());
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(publisher));
         this.publisher = publisher;
     }
 
@@ -120,8 +117,7 @@ public class Book {
     }
 
     public void setYear(String year) {
-        Preconditions.checkNotNull(year);
-        Preconditions.checkArgument(year.isEmpty());
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(year));
         this.year = year;
     }
 
@@ -139,8 +135,7 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
-        Preconditions.checkNotNull(isbn);
-        Preconditions.checkArgument(isbn.isEmpty());
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(isbn));
         this.isbn = isbn;
     }
 

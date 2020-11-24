@@ -3,6 +3,7 @@ package Wolox.training.models;
 import Wolox.training.commons.Constants;
 import Wolox.training.exceptions.BookAlreadyOwnedException;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
@@ -54,8 +55,7 @@ public class User {
     }
 
     public void setUserName(String userName) {
-        Preconditions.checkNotNull(userName);
-        Preconditions.checkArgument(userName.isEmpty());
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(userName));
         this.userName = userName;
     }
 
@@ -64,8 +64,7 @@ public class User {
     }
 
     public void setName(String name) {
-        Preconditions.checkNotNull(name);
-        Preconditions.checkArgument(name.isEmpty());
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
         this.name = name;
     }
 
@@ -84,7 +83,7 @@ public class User {
 
     public void setBooks(List<Book> books) {
         Preconditions.checkNotNull(books);
-        Preconditions.checkArgument(books.isEmpty());
+        Preconditions.checkArgument(!books.isEmpty());
         this.books = books;
     }
 
