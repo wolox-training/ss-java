@@ -1,6 +1,8 @@
 package Wolox.training.models;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 import java.util.List;
 import javax.persistence.Column;
@@ -15,6 +17,25 @@ import javax.validation.constraints.NotNull;
 public class Book {
 
     public Book() {
+    }
+
+    @JsonCreator
+    public Book(String genre, @NotNull String author,
+            @NotNull String image, @NotNull String title,
+            @NotNull String subtitle, @NotNull String publisher,
+            @NotNull String year, @NotNull Integer pages,
+            @NotNull String isbn, List<User> users) {
+
+        this.genre = genre;
+        this.author = author;
+        this.image = image;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.publisher = publisher;
+        this.year = year;
+        this.pages = pages;
+        this.isbn = isbn;
+        this.users = users;
     }
 
     /**
@@ -52,6 +73,7 @@ public class Book {
     @NotNull
     @Column(nullable = false)
     private String isbn;
+    @JsonIgnore
     @ManyToMany(mappedBy = "books")
     private List<User> users;
 
@@ -60,8 +82,6 @@ public class Book {
     }
 
     public void setGenre(String genre) {
-        Preconditions.checkNotNull(genre);
-        Preconditions.checkArgument(genre.isEmpty());
         this.genre = genre;
     }
 
