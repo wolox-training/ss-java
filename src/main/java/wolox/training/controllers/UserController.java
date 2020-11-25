@@ -1,10 +1,10 @@
-package Wolox.training.controllers;
+package wolox.training.controllers;
 
-import Wolox.training.commons.Constants;
-import Wolox.training.models.Book;
-import Wolox.training.models.User;
-import Wolox.training.repositories.BookRepository;
-import Wolox.training.repositories.UserRepository;
+import wolox.training.commons.Constants;
+import wolox.training.models.Book;
+import wolox.training.models.User;
+import wolox.training.repositories.BookRepository;
+import wolox.training.repositories.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

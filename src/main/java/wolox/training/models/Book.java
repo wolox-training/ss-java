@@ -1,4 +1,4 @@
-package Wolox.training.models;
+package wolox.training.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;

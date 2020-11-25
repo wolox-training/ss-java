@@ -1,4 +1,4 @@
-package Wolox.training.exceptions;
+package wolox.training.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;

@@ -1,7 +1,7 @@
-package Wolox.training.models;
+package wolox.training.models;
 
-import Wolox.training.commons.Constants;
-import Wolox.training.exceptions.BookAlreadyOwnedException;
+import wolox.training.commons.Constants;
+import wolox.training.exceptions.BookAlreadyOwnedException;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import io.swagger.annotations.ApiModel;
