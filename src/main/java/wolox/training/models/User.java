@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import wolox.training.commons.Constants;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 import com.google.common.base.Preconditions;
@@ -47,6 +48,7 @@ public class User {
     private LocalDate birthdate;
     @NotNull
     @Column(nullable = false)
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<Book> books = new ArrayList<Book>();
 
