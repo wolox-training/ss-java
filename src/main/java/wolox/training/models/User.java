@@ -29,6 +29,16 @@ public class User {
     public User() {
     }
 
+    public User(Long id, @NotNull String userName,
+            @NotNull String name, @NotNull LocalDate birthdate,
+            @NotNull List<Book> books) {
+        this.id = id;
+        this.userName = userName;
+        this.name = name;
+        this.birthdate = birthdate;
+        this.books = books;
+    }
+
     /**
      * Primary key of User entity
      */
