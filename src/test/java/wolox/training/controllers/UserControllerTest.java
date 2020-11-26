@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import wolox.training.commons.Constants;
 import wolox.training.commons.Utils;
 import wolox.training.models.Book;
 import wolox.training.models.User;
@@ -35,29 +36,16 @@ public class UserControllerTest extends Utils {
 
     @MockBean
     private UserRepository mockUserRepository;
-
     private User mockUser;
-    private Book mockBook;
 
     @BeforeEach
     public void setUp() {
-        mockBook = new Book();
-        mockBook.setAuthor("Stephen King");
-        mockBook.setGenre("Terror");
-        mockBook.setImage("image2.pgn");
-        mockBook.setIsbn("45788865");
-        mockBook.setPages(200);
-        mockBook.setPublisher("Viking Press");
-        mockBook.setSubtitle("-");
-        mockBook.setTitle("It");
-        mockBook.setYear("1986");
-
         mockUser = new User();
         mockUser.setUserName("SsopoWolox");
         mockUser.setName("Sebastian Sopo Martinez");
         mockUser.setBirthdate(LocalDate.now());
         Book book = new Book(1L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
-                "1986", 220, "45788865");
+                "1986", 220, "45788865", null);
         List books = new ArrayList();
         books.add(book);
         mockUser.setBooks(books);
@@ -93,8 +81,7 @@ public class UserControllerTest extends Utils {
         when(mockUserRepository.save(any())).thenReturn(mockUser);
         mvc.perform(MockMvcRequestBuilders.post("/api/users")
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(
-                        "{\"id\":null,\"userName\":\"SsopoWolox\",\"name\":\"Sebastian Sopo Martinez\",\"birthdate\":2020}")
+                .content(Constants.USER_ID_NULL)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -120,8 +107,7 @@ public class UserControllerTest extends Utils {
         when(mockUserRepository.save(any())).thenReturn(mockUser);
         mvc.perform(MockMvcRequestBuilders.put("/api/users/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(
-                        "{\"id\":1,\"userName\":\"SsopoWolox\",\"name\":\"Sebastian Sopo Martinez\",\"birthdate\":2020}")
+                .content(Constants.USER)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -135,7 +121,7 @@ public class UserControllerTest extends Utils {
     public void givenUser_whenSaveUserBook_thenReturnOk() throws Exception {
         when(mockBookRepository.findById(2L)).thenReturn(java.util.Optional.ofNullable(
                 new Book(2L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
-                        "1986", 220, "45788865")));
+                        "1986", 220, "45788865", null)));
         when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
         when(mockUserRepository.save(any())).thenReturn(mockUser);
         mvc.perform(MockMvcRequestBuilders.post("/api/users/{idUser}/book/{idBook}", 1, 2)
@@ -149,7 +135,7 @@ public class UserControllerTest extends Utils {
     public void givenUser_whenRemoveUserBook_thenReturnOk() throws Exception {
         when(mockBookRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(
                 new Book(1L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
-                        "1986", 220, "45788865")));
+                        "1986", 220, "45788865", null)));
         when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
         when(mockUserRepository.save(any())).thenReturn(mockUser);
         mvc.perform(MockMvcRequestBuilders.delete("/api/users/{idUser}/book/{idBook}", 1, 1)

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import wolox.training.commons.BookFactory;
 import wolox.training.models.Book;
 import wolox.training.models.User;
 
@@ -25,27 +26,15 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
     private User mockUser;
-    private Book mockBook;
 
     @BeforeEach
     public void setUp() {
-        mockBook = new Book();
-        mockBook.setAuthor("Stephen King");
-        mockBook.setGenre("Terror");
-        mockBook.setImage("image2.pgn");
-        mockBook.setIsbn("45788865");
-        mockBook.setPages(200);
-        mockBook.setPublisher("Viking Press");
-        mockBook.setSubtitle("-");
-        mockBook.setTitle("It");
-        mockBook.setYear("1986");
-
         mockUser = new User();
         mockUser.setUserName("SsopoWolox");
         mockUser.setName("Sebastian Sopo Martinez");
         mockUser.setBirthdate(LocalDate.now());
         Book book = new Book(1L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
-                "1986", 220, "45788865");
+                "1986", 220, "45788865", null);
         List books = new ArrayList();
         books.add(book);
         mockUser.setBooks(books);
@@ -63,7 +52,7 @@ public class UserRepositoryTest {
     public void givenUser_whenSave_returnPersistenceException() {
         Exception exception = Assertions.assertThrows(PersistenceException.class, () ->
                 entityManager.merge(new User(1L, null, "Sebastian Sopo Martinez", LocalDate.now(),
-                        Arrays.asList(mockBook))));
+                        Arrays.asList(BookFactory.getBook()))));
         Assertions.assertTrue(exception.getCause() instanceof PropertyValueException);
     }
 
@@ -78,7 +67,7 @@ public class UserRepositoryTest {
 
     @Test
     public void givenBook_whenIsNull_returnException() {
-        entityManager.persistAndFlush(mockBook);
+        entityManager.persistAndFlush(BookFactory.getBook());
         entityManager.persistAndFlush(mockUser);
         entityManager.remove(mockUser);
         List<User> userList = userRepository.findAll();

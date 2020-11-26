@@ -22,24 +22,6 @@ public class Book {
             @NotNull String image, @NotNull String title,
             @NotNull String subtitle, @NotNull String publisher,
             @NotNull String year, @NotNull Integer pages,
-            @NotNull String isbn) {
-
-        this.id = id;
-        this.genre = genre;
-        this.author = author;
-        this.image = image;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.publisher = publisher;
-        this.year = year;
-        this.pages = pages;
-        this.isbn = isbn;
-    }
-
-    public Book(Long id, String genre, @NotNull String author,
-            @NotNull String image, @NotNull String title,
-            @NotNull String subtitle, @NotNull String publisher,
-            @NotNull String year, @NotNull Integer pages,
             @NotNull String isbn, List<User> users) {
         this.id = id;
         this.genre = genre;
