@@ -1,9 +1,11 @@
 package wolox.training.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +55,9 @@ public class UserControllerTest extends Utils {
         mockUser.setUserName("SsopoWolox");
         mockUser.setName("Sebastian Sopo Martinez");
         mockUser.setBirthdate(LocalDate.now());
-        mockUser.setBooks(Collections.singletonList(mockBook));
+        mockUser.setBooks(Arrays.asList(new Book[]{
+                new Book(1L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
+                        "1986", 220, "45788865")}));
     }
 
     @Test
@@ -88,6 +92,51 @@ public class UserControllerTest extends Utils {
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .content(
                         "{\"id\":null,\"userName\":\"SsopoWolox\",\"name\":\"Sebastian Sopo Martinez\",\"birthdate\":2020}")
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("userName")
+                        .value(mockUser.getUserName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("name").value(mockUser.getName()));
+    }
+
+    @Test
+    public void givenUser_whenDelete_thenReturnOk() throws Exception {
+        when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
+        doNothing().when(mockUserRepository).delete(mockUser);
+        mvc.perform(MockMvcRequestBuilders.delete("/api/users/{id}", 1)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void givenUser_whenUpdate_thenReturnUpdateUser() throws Exception {
+        when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
+        when(mockUserRepository.save(any())).thenReturn(mockUser);
+        mvc.perform(MockMvcRequestBuilders.put("/api/users/{id}", 1)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .content(
+                        "{\"id\":1,\"userName\":\"SsopoWolox\",\"name\":\"Sebastian Sopo Martinez\",\"birthdate\":2020}")
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("userName")
+                        .value(mockUser.getUserName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("name").value(mockUser.getName()));
+
+    }
+
+    @Test
+    public void givenUser_whenSaveUserBook_thenReturnOk() throws Exception {
+        when(mockBookRepository.findById(2L)).thenReturn(java.util.Optional.ofNullable(
+                new Book(2L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
+                        "1986", 220, "45788865")));
+        when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
+        when(mockUserRepository.save(any())).thenReturn(mockUser);
+        mvc.perform(MockMvcRequestBuilders.post("/api/users/{idUser}/book/{idBook}", 1, 2)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())

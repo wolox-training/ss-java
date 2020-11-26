@@ -1,8 +1,5 @@
 package wolox.training.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import wolox.training.commons.Constants;
-import wolox.training.exceptions.BookAlreadyOwnedException;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import io.swagger.annotations.ApiModel;
@@ -21,6 +18,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
+import wolox.training.commons.Constants;
+import wolox.training.exceptions.BookAlreadyOwnedException;
 
 @Entity
 @Table(name = "users")
@@ -48,7 +47,6 @@ public class User {
     private LocalDate birthdate;
     @NotNull
     @Column(nullable = false)
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<Book> books = new ArrayList<Book>();
 
@@ -100,17 +98,16 @@ public class User {
      * @throws BookAlreadyOwnedException
      */
     public void addBook(Book book) throws BookAlreadyOwnedException {
-        if (!books.isEmpty()) {
-            books.stream().forEach(item -> {
-                if (item.getId().compareTo(book.getId()) == 0) {
-                    throw new BookAlreadyOwnedException(HttpStatus.PRECONDITION_FAILED,
-                            Constants.ALREADY_EXISTS);
-                }
-            });
-            books.add(book);
-        } else {
-            throw new BookAlreadyOwnedException(HttpStatus.NOT_FOUND, Constants.NOT_FOUND);
+        if (this.books == null) {
+            this.books = new ArrayList<Book>();
         }
+        this.books.stream().forEach(item -> {
+            if (item.getId().compareTo(book.getId()) == 0) {
+                throw new BookAlreadyOwnedException(HttpStatus.PRECONDITION_FAILED,
+                        Constants.ALREADY_EXISTS);
+            }
+        });
+        this.books.add(book);
     }
 
     /**
