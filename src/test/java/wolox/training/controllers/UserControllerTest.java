@@ -5,8 +5,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +56,11 @@ public class UserControllerTest extends Utils {
         mockUser.setUserName("SsopoWolox");
         mockUser.setName("Sebastian Sopo Martinez");
         mockUser.setBirthdate(LocalDate.now());
-        mockUser.setBooks(Arrays.asList(new Book[]{
-                new Book(1L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
-                        "1986", 220, "45788865")}));
+        Book book = new Book(1L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
+                "1986", 220, "45788865");
+        List books = new ArrayList();
+        books.add(book);
+        mockUser.setBooks(books);
     }
 
     @Test
@@ -139,9 +142,20 @@ public class UserControllerTest extends Utils {
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("userName")
-                        .value(mockUser.getUserName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("name").value(mockUser.getName()));
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void givenUser_whenRemoveUserBook_thenReturnOk() throws Exception {
+        when(mockBookRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(
+                new Book(1L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
+                        "1986", 220, "45788865")));
+        when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
+        when(mockUserRepository.save(any())).thenReturn(mockUser);
+        mvc.perform(MockMvcRequestBuilders.delete("/api/users/{idUser}/book/{idBook}", 1, 1)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
