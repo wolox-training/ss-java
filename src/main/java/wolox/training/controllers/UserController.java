@@ -1,15 +1,11 @@
 package wolox.training.controllers;
 
-import wolox.training.commons.Constants;
-import wolox.training.models.Book;
-import wolox.training.models.User;
-import wolox.training.repositories.BookRepository;
-import wolox.training.repositories.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import wolox.training.commons.Constants;
+import wolox.training.models.Book;
+import wolox.training.models.User;
+import wolox.training.repositories.BookRepository;
+import wolox.training.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")
@@ -32,6 +33,9 @@ public class UserController {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private PasswordEncoder encoderAuth;
+
     /**
      * This method create a user
      *
@@ -41,6 +45,7 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@RequestBody User user) {
+        user.setPassword(encoderAuth.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
