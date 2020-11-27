@@ -24,7 +24,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication)
             throws AuthenticationException {
         String username = authentication.getName();
-        String password = encoderAuth.encode(authentication.getCredentials().toString());
+        String password = authentication.getCredentials().toString();
 
         User user = userRepository.findByUserName(username);
 
@@ -34,7 +34,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         if (!encoderAuth.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Wrong password.");
         }
-
         return new UsernamePasswordAuthenticationToken(user, password, null);
     }
 

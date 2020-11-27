@@ -27,6 +27,7 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
     testCompile group: 'com.h2database', name: 'h2'
     compile('org.springframework.boot:spring-boot-starter-security')
+    testCompile group: 'org.springframework.security', name: 'spring-security-test'
 }
 
 test {

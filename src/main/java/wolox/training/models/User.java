@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import wolox.training.commons.Constants;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 
@@ -110,7 +111,7 @@ public class User {
 
     public void setPassword(String password) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(password));
-        this.password = password;
+        this.password = new BCryptPasswordEncoder().encode(password);
     }
 
     /**
