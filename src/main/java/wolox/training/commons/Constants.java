@@ -26,4 +26,20 @@ public class Constants {
      * Constant for wrong value
      */
     public static String USER_INCORRECT = "User and id incorrect";
+    /**
+     * Constant for connect with external service
+     */
+    public static String URL = "https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&format={format}&jscmd={jscmd}";
+
+    /**
+     * Constant for return type for external service
+     */
+    public static String FORMAT = "json";
+
+    /**
+     * Constant for type of external service
+     */
+    public static String TYPE = "data";
+
+    public static String ISBN = "ISBN:";
 }
