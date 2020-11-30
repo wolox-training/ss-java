@@ -1,5 +1,9 @@
 package wolox.training.repositories;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.PersistenceException;
 import org.hibernate.PropertyValueException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,25 +47,25 @@ public class UserRepositoryTest {
     public void givenUser_whenSave_returnOk() {
         entityManager.persistAndFlush(mockUser);
         Optional<User> user = userRepository.findById(1l);
-        org.assertj.core.api.Assertions.assertThat(user).isNotEmpty();
+        assertThat(user).isNotEmpty();
     }
 
 
     @Test
     public void givenUser_whenSave_returnPersistenceException() {
-        Exception exception = Assertions.assertThrows(PersistenceException.class, () ->
+        Exception exception = assertThrows(PersistenceException.class, () ->
                 entityManager.merge(new User(1L, null, "Sebastian Sopo Martinez", LocalDate.now(),
                         Arrays.asList(BookFactory.getBook()))));
-        Assertions.assertTrue(exception.getCause() instanceof PropertyValueException);
+        assertTrue(exception.getCause() instanceof PropertyValueException);
     }
 
     @Test
     public void givenBook_whenIsNotNull_returnOk() {
-        org.assertj.core.api.Assertions.assertThat(mockUser.getName()).isNotNull();
-        org.assertj.core.api.Assertions.assertThat(mockUser.getUserName()).isNotNull();
-        org.assertj.core.api.Assertions.assertThat(mockUser.getBirthdate()).isNotNull();
-        org.assertj.core.api.Assertions.assertThat(mockUser.getBooks()).isNotNull();
-        org.assertj.core.api.Assertions.assertThat(mockUser.getBooks()).isNotEmpty();
+        assertThat(mockUser.getName()).isNotNull();
+        assertThat(mockUser.getUserName()).isNotNull();
+        assertThat(mockUser.getBirthdate()).isNotNull();
+        assertThat(mockUser.getBooks()).isNotNull();
+        assertThat(mockUser.getBooks()).isNotEmpty();
     }
 
     @Test
@@ -71,6 +74,6 @@ public class UserRepositoryTest {
         entityManager.persistAndFlush(mockUser);
         entityManager.remove(mockUser);
         List<User> userList = userRepository.findAll();
-        org.assertj.core.api.Assertions.assertThat(userList).isEmpty();
+        assertThat(userList).isEmpty();
     }
 }
