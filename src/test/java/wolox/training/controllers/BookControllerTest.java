@@ -34,7 +34,7 @@ public class BookControllerTest extends Utils {
     private CustomAuthenticationProvider authProvider;
 
     @Test
-    @WithMockUser(username = "SsopoWolox", password = "wolox1189")
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenBook_whenFindOne_thenReturnBook() throws Exception {
         when(mockBookRepository.findById(1L))
                 .thenReturn(java.util.Optional.ofNullable(BookFactory.getBook()));
@@ -48,7 +48,7 @@ public class BookControllerTest extends Utils {
     }
 
     @Test
-    @WithMockUser(username = "SsopoWolox", password = "wolox1189")
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenBook_whenFindAll_thenReturnBooks() throws Exception {
         when(mockBookRepository.findAll())
                 .thenReturn(Collections.singletonList(BookFactory.getBook()));
@@ -66,7 +66,7 @@ public class BookControllerTest extends Utils {
     }
 
     @Test
-    @WithMockUser(username = "SsopoWolox", password = "wolox1189")
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenBook_whenSave_thenReturnBook() throws Exception {
         when(mockBookRepository.save(any())).thenReturn(BookFactory.getBook());
         mvc.perform(MockMvcRequestBuilders.post("/api/books")
@@ -84,7 +84,7 @@ public class BookControllerTest extends Utils {
     }
 
     @Test
-    @WithMockUser(username = "SsopoWolox", password = "wolox1189")
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenBook_whenDelete_thenReturnOk() throws Exception {
         when(mockBookRepository.findById(1L))
                 .thenReturn(java.util.Optional.ofNullable(BookFactory.getBook()));
@@ -97,7 +97,7 @@ public class BookControllerTest extends Utils {
     }
 
     @Test
-    @WithMockUser(username = "SsopoWolox", password = "wolox1189")
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenBook_whenUpdate_thenReturnUpdateBook() throws Exception {
         when(mockBookRepository.findById(1L))
                 .thenReturn(java.util.Optional.ofNullable(BookFactory.getBook()));
