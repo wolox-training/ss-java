@@ -1,4 +1,4 @@
-package Wolox.training.commons;
+package wolox.training.commons;
 
 public class Constants {
 

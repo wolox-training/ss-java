@@ -1,7 +1,5 @@
-package Wolox.training.models;
+package wolox.training.models;
 
-import Wolox.training.commons.Constants;
-import Wolox.training.exceptions.BookAlreadyOwnedException;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import io.swagger.annotations.ApiModel;
@@ -20,6 +18,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import wolox.training.commons.Constants;
+import wolox.training.exceptions.BookAlreadyOwnedException;
 
 @Entity
 @Table(name = "users")
@@ -27,6 +28,16 @@ import org.springframework.http.HttpStatus;
 public class User {
 
     public User() {
+    }
+
+    public User(Long id, @NotNull String userName,
+            @NotNull String name, @NotNull LocalDate birthdate,
+            @NotNull List<Book> books) {
+        this.id = id;
+        this.userName = userName;
+        this.name = name;
+        this.birthdate = birthdate;
+        this.books = books;
     }
 
     /**
@@ -49,6 +60,9 @@ public class User {
     @Column(nullable = false)
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<Book> books = new ArrayList<Book>();
+    @NotNull
+    @Column(nullable = false)
+    private String password;
 
     public String getUserName() {
         return userName;
@@ -91,6 +105,15 @@ public class User {
         return id;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(password));
+        this.password = new BCryptPasswordEncoder().encode(password);
+    }
+
     /**
      * This method save a book in the collection user if this not already exists
      *
@@ -98,16 +121,16 @@ public class User {
      * @throws BookAlreadyOwnedException
      */
     public void addBook(Book book) throws BookAlreadyOwnedException {
-        if (!books.isEmpty()) {
-            if (books.stream().anyMatch(item -> item.getId().compareTo(book.getId()) == 0)) {
-                books.add(book);
-            } else {
+        if (this.books == null) {
+            this.books = new ArrayList<Book>();
+        }
+        this.books.stream().forEach(item -> {
+            if (item.getId().compareTo(book.getId()) == 0) {
                 throw new BookAlreadyOwnedException(HttpStatus.PRECONDITION_FAILED,
                         Constants.ALREADY_EXISTS);
             }
-        } else {
-            throw new BookAlreadyOwnedException(HttpStatus.NOT_FOUND, Constants.NOT_FOUND);
-        }
+        });
+        this.books.add(book);
     }
 
     /**
@@ -117,7 +140,7 @@ public class User {
      * @throws BookAlreadyOwnedException
      */
     public void removeBook(Book book) throws BookAlreadyOwnedException {
-        if (books.stream().anyMatch(item -> item.getId().compareTo(book.getId()) != 0)) {
+        if (books.stream().anyMatch(item -> item.getId().compareTo(book.getId()) == 0)) {
             books.remove(book);
         } else {
             throw new BookAlreadyOwnedException(HttpStatus.NOT_FOUND, Constants.NOT_FOUND);

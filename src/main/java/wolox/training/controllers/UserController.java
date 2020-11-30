@@ -1,10 +1,5 @@
-package Wolox.training.controllers;
+package wolox.training.controllers;
 
-import Wolox.training.commons.Constants;
-import Wolox.training.models.Book;
-import Wolox.training.models.User;
-import Wolox.training.repositories.BookRepository;
-import Wolox.training.repositories.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import wolox.training.commons.Constants;
+import wolox.training.models.Book;
+import wolox.training.models.User;
+import wolox.training.repositories.BookRepository;
+import wolox.training.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")
@@ -82,7 +82,7 @@ public class UserController {
      *
      * @return
      */
-    @GetMapping
+    @GetMapping("/all")
     public Iterable findAll() {
         return userRepository.findAll();
     }
@@ -109,7 +109,7 @@ public class UserController {
      * @param idBook
      * @param idUser
      */
-    @PostMapping("book/{idBook}/user/{idUser}")
+    @PostMapping("/{idUser}/book/{idBook}")
     public void createUserBook(@PathVariable(name = "idBook") Long idBook,
             @PathVariable(name = "idUser") Long idUser) {
         User user = userRepository.findById(idUser).orElseThrow(
@@ -129,7 +129,7 @@ public class UserController {
      * @param idBook
      * @param idUser
      */
-    @DeleteMapping("book/{idBook}/user/{idUser}")
+    @DeleteMapping("/{idUser}/book/{idBook}")
     public void removeUserBook(@PathVariable(name = "idBook") Long idBook,
             @PathVariable(name = "idUser") Long idUser) {
         User user = userRepository.findById(idUser).orElseThrow(

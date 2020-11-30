@@ -1,4 +1,4 @@
-package Wolox.training;
+package wolox.training;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TrainingApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TrainingApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TrainingApplication.class, args);
+    }
 
 }

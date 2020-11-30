@@ -1,5 +1,4 @@
-package Wolox.training.models;
-
+package wolox.training.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
@@ -17,6 +16,24 @@ import javax.validation.constraints.NotNull;
 public class Book {
 
     public Book() {
+    }
+
+    public Book(Long id, String genre, @NotNull String author,
+            @NotNull String image, @NotNull String title,
+            @NotNull String subtitle, @NotNull String publisher,
+            @NotNull String year, @NotNull Integer pages,
+            @NotNull String isbn, List<User> users) {
+        this.id = id;
+        this.genre = genre;
+        this.author = author;
+        this.image = image;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.publisher = publisher;
+        this.year = year;
+        this.pages = pages;
+        this.isbn = isbn;
+        this.users = users;
     }
 
     /**
@@ -151,5 +168,22 @@ public class Book {
         Preconditions.checkNotNull(users);
         Preconditions.checkArgument(users.isEmpty());
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", genre='" + genre + '\'' +
+                ", author='" + author + '\'' +
+                ", image='" + image + '\'' +
+                ", title='" + title + '\'' +
+                ", subtitle='" + subtitle + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", year='" + year + '\'' +
+                ", pages=" + pages +
+                ", isbn='" + isbn + '\'' +
+                ", users=" + users +
+                '}';
     }
 }
