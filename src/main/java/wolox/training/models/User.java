@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import wolox.training.commons.Constants;
 import wolox.training.exceptions.BookAlreadyOwnedException;
 
@@ -59,6 +60,9 @@ public class User {
     @Column(nullable = false)
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<Book> books = new ArrayList<Book>();
+    @NotNull
+    @Column(nullable = false)
+    private String password;
 
     public String getUserName() {
         return userName;
@@ -99,6 +103,15 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(password));
+        this.password = new BCryptPasswordEncoder().encode(password);
     }
 
     /**

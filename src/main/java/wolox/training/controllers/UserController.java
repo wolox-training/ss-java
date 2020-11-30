@@ -1,10 +1,5 @@
 package wolox.training.controllers;
 
-import wolox.training.commons.Constants;
-import wolox.training.models.Book;
-import wolox.training.models.User;
-import wolox.training.repositories.BookRepository;
-import wolox.training.repositories.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import wolox.training.commons.Constants;
+import wolox.training.models.Book;
+import wolox.training.models.User;
+import wolox.training.repositories.BookRepository;
+import wolox.training.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")
@@ -82,7 +82,7 @@ public class UserController {
      *
      * @return
      */
-    @GetMapping
+    @GetMapping("/all")
     public Iterable findAll() {
         return userRepository.findAll();
     }

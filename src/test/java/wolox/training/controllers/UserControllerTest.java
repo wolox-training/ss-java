@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -22,6 +23,7 @@ import wolox.training.commons.Constants;
 import wolox.training.commons.Utils;
 import wolox.training.models.Book;
 import wolox.training.models.User;
+import wolox.training.provider.CustomAuthenticationProvider;
 import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
 
@@ -38,11 +40,15 @@ public class UserControllerTest extends Utils {
     private UserRepository mockUserRepository;
     private User mockUser;
 
+    @MockBean
+    private CustomAuthenticationProvider authProvider;
+
     @BeforeEach
     public void setUp() {
         mockUser = new User();
-        mockUser.setUserName("SsopoWolox");
+        mockUser.setUserName(Constants.USER_NAME);
         mockUser.setName("Sebastian Sopo Martinez");
+        mockUser.setPassword(Constants.PASSWORD);
         mockUser.setBirthdate(LocalDate.now());
         Book book = new Book(1L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
                 "1986", 220, "45788865", null);
@@ -52,6 +58,7 @@ public class UserControllerTest extends Utils {
     }
 
     @Test
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenUser_whenFindOne_thenReturnUser() throws Exception {
         when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
         mvc.perform(MockMvcRequestBuilders.get("/api/users/{id}", 1)
@@ -64,9 +71,10 @@ public class UserControllerTest extends Utils {
     }
 
     @Test
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenUser_whenFindAll_thenReturnUsers() throws Exception {
         when(mockUserRepository.findAll()).thenReturn(Collections.singletonList(mockUser));
-        mvc.perform(MockMvcRequestBuilders.get("/api/users")
+        mvc.perform(MockMvcRequestBuilders.get("/api/users/all")
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(MockMvcResultHandlers.print())
@@ -91,6 +99,7 @@ public class UserControllerTest extends Utils {
     }
 
     @Test
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenUser_whenDelete_thenReturnOk() throws Exception {
         when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
         doNothing().when(mockUserRepository).delete(mockUser);
@@ -102,6 +111,7 @@ public class UserControllerTest extends Utils {
     }
 
     @Test
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenUser_whenUpdate_thenReturnUpdateUser() throws Exception {
         when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
         when(mockUserRepository.save(any())).thenReturn(mockUser);
@@ -118,6 +128,7 @@ public class UserControllerTest extends Utils {
     }
 
     @Test
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenUser_whenSaveUserBook_thenReturnOk() throws Exception {
         when(mockBookRepository.findById(2L)).thenReturn(java.util.Optional.ofNullable(
                 new Book(2L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",

@@ -1,8 +1,5 @@
 package wolox.training.controllers;
 
-import wolox.training.commons.Constants;
-import wolox.training.models.Book;
-import wolox.training.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import wolox.training.commons.Constants;
+import wolox.training.models.Book;
+import wolox.training.repositories.BookRepository;
 
 @RestController
 @RequestMapping("/api/books")
@@ -73,7 +73,7 @@ public class BookController {
      *
      * @return
      */
-    @GetMapping
+    @GetMapping("/all")
     public Iterable findAll() {
         return bookRepository.findAll();
     }

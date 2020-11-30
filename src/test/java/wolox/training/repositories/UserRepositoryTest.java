@@ -36,6 +36,7 @@ public class UserRepositoryTest {
         mockUser.setUserName("SsopoWolox");
         mockUser.setName("Sebastian Sopo Martinez");
         mockUser.setBirthdate(LocalDate.now());
+        mockUser.setPassword("wolox1189");
         Book book = new Book(1L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
                 "1986", 220, "45788865", null);
         List books = new ArrayList();
