@@ -2,10 +2,10 @@ package wolox.training.dto;
 
 public class PublishersDTO {
 
+    private String name;
+
     public PublishersDTO() {
     }
-
-    private String name;
 
     public String getName() {
         return name;

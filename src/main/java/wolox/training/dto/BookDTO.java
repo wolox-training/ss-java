@@ -4,9 +4,6 @@ import java.util.List;
 
 public class BookDTO {
 
-    public BookDTO() {
-    }
-
     private String isbn;
     private String title;
     private String subtitle;
@@ -14,6 +11,9 @@ public class BookDTO {
     private String publishDate;
     private Integer pages;
     private List<AuthorDTO> authors;
+
+    public BookDTO() {
+    }
 
     public String getIsbn() {
         return isbn;

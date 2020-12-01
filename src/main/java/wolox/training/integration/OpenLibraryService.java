@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -23,6 +24,9 @@ public class OpenLibraryService {
     @Autowired
     private BookMapper bookMapper;
 
+    @Autowired
+    private Environment env;
+
     public BookDTO bookInfo(String isbn) throws ResponseStatusException {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> vars = new HashMap<>();
@@ -30,8 +34,9 @@ public class OpenLibraryService {
         vars.put("format", Constants.FORMAT);
         vars.put("jscmd", Constants.TYPE);
 
-        ObjectNode objectNode = restTemplate.getForObject(Constants.URL, ObjectNode.class, vars);
-        objectNode = (ObjectNode) objectNode.get(Constants.ISBN.concat(isbn));
+        ObjectNode objectNode = (ObjectNode) restTemplate
+                .getForObject(env.getProperty(Constants.URL), ObjectNode.class, vars)
+                .get(Constants.ISBN.concat(isbn));
         if (objectNode != null) {
             BookDTO bookDTO = bookMapper
                     .bookToBookDTO(objectMapper.convertValue(objectNode, Book.class));
