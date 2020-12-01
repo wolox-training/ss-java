@@ -1,8 +1,8 @@
 package wolox.training.controllers;
 
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import wolox.training.commons.Constants;
+import wolox.training.dto.BookDTO;
 import wolox.training.integration.OpenLibraryService;
+import wolox.training.mapper.BookMapper;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
@@ -28,6 +30,9 @@ public class BookController {
 
     @Autowired
     private OpenLibraryService openService;
+
+    @Autowired
+    private BookMapper bookMapper;
 
     /**
      * this method create a book
@@ -98,10 +103,26 @@ public class BookController {
                                 Constants.NOT_FOUND));
     }
 
+    /**
+     * This method find a Book by ISBN, if not return find in a external service and persist in data
+     * base
+     *
+     * @param isbn
+     * @return
+     */
     @GetMapping()
-    public Book findByIsbn(@RequestParam("isbn") String isbn) {
-        Optional<Book> book = bookRepository.findByIsbn(isbn);
-        openService.bookInfo(isbn);
-        return null;
+    public ResponseEntity findByIsbn(@RequestParam("isbn") String isbn) {
+        Book book = bookRepository.findByIsbn(isbn).orElse(null);
+        if (book == null) {
+            BookDTO bookDTO = openService.bookInfo(isbn);
+            Book bookEntity = bookMapper.bookDTOToBookEntity(bookDTO);
+            bookEntity.setAuthor(bookDTO.getAuthors().get(0).getName());
+            bookEntity.setPublisher(bookDTO.getPublishers().get(0).getName());
+            bookEntity.setGenre("Terror");
+            bookEntity.setImage("image5.pgn");
+            return new ResponseEntity(bookRepository.save(bookEntity), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity(book, HttpStatus.OK);
+        }
     }
 }

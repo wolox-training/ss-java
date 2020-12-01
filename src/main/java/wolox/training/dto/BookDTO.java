@@ -11,8 +11,8 @@ public class BookDTO {
     private String title;
     private String subtitle;
     private List<PublishersDTO> publishers;
-    private String publish_date;
-    private Integer number_of_pages;
+    private String publishDate;
+    private Integer pages;
     private List<AuthorDTO> authors;
 
     public String getIsbn() {
@@ -47,20 +47,20 @@ public class BookDTO {
         this.publishers = publishers;
     }
 
-    public String getPublish_date() {
-        return publish_date;
+    public String getPublishDate() {
+        return publishDate;
     }
 
-    public void setPublish_date(String publish_date) {
-        this.publish_date = publish_date;
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate;
     }
 
-    public Integer getNumber_of_pages() {
-        return number_of_pages;
+    public Integer getPages() {
+        return pages;
     }
 
-    public void setNumber_of_pages(Integer number_of_pages) {
-        this.number_of_pages = number_of_pages;
+    public void setPages(Integer pages) {
+        this.pages = pages;
     }
 
     public List<AuthorDTO> getAuthors() {
@@ -78,8 +78,8 @@ public class BookDTO {
                 ", title='" + title + '\'' +
                 ", subtitle='" + subtitle + '\'' +
                 ", publishers='" + publishers + '\'' +
-                ", publish_date='" + publish_date + '\'' +
-                ", pages=" + number_of_pages +
+                ", publish_date='" + publishDate + '\'' +
+                ", pages=" + pages +
                 ", authors=" + authors +
                 '}';
     }
