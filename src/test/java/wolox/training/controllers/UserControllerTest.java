@@ -46,9 +46,9 @@ public class UserControllerTest extends Utils {
     @BeforeEach
     public void setUp() {
         mockUser = new User();
-        mockUser.setUserName("SsopoWolox");
+        mockUser.setUserName(Constants.USER_NAME);
         mockUser.setName("Sebastian Sopo Martinez");
-        mockUser.setPassword("wolox1189");
+        mockUser.setPassword(Constants.PASSWORD);
         mockUser.setBirthdate(LocalDate.now());
         Book book = new Book(1L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
                 "1986", 220, "45788865", null);
@@ -58,7 +58,7 @@ public class UserControllerTest extends Utils {
     }
 
     @Test
-    @WithMockUser(username = "SsopoWolox", password = "wolox1189")
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenUser_whenFindOne_thenReturnUser() throws Exception {
         when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
         mvc.perform(MockMvcRequestBuilders.get("/api/users/{id}", 1)
@@ -71,7 +71,7 @@ public class UserControllerTest extends Utils {
     }
 
     @Test
-    @WithMockUser(username = "SsopoWolox", password = "wolox1189")
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenUser_whenFindAll_thenReturnUsers() throws Exception {
         when(mockUserRepository.findAll()).thenReturn(Collections.singletonList(mockUser));
         mvc.perform(MockMvcRequestBuilders.get("/api/users/all")
@@ -99,7 +99,7 @@ public class UserControllerTest extends Utils {
     }
 
     @Test
-    @WithMockUser(username = "SsopoWolox", password = "wolox1189")
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenUser_whenDelete_thenReturnOk() throws Exception {
         when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
         doNothing().when(mockUserRepository).delete(mockUser);
@@ -111,7 +111,7 @@ public class UserControllerTest extends Utils {
     }
 
     @Test
-    @WithMockUser(username = "SsopoWolox", password = "wolox1189")
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenUser_whenUpdate_thenReturnUpdateUser() throws Exception {
         when(mockUserRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(mockUser));
         when(mockUserRepository.save(any())).thenReturn(mockUser);
@@ -128,7 +128,7 @@ public class UserControllerTest extends Utils {
     }
 
     @Test
-    @WithMockUser(username = "SsopoWolox", password = "wolox1189")
+    @WithMockUser(username = Constants.USER_NAME, password = Constants.PASSWORD)
     public void givenUser_whenSaveUserBook_thenReturnOk() throws Exception {
         when(mockBookRepository.findById(2L)).thenReturn(java.util.Optional.ofNullable(
                 new Book(2L, "Terror", "Stephen King", "image2.pgn", "It", "-", "Viking Press",
