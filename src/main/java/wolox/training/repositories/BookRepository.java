@@ -1,9 +1,8 @@
 package wolox.training.repositories;
 
-import org.springframework.data.jpa.repository.Query;
-import wolox.training.models.Book;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import wolox.training.models.Book;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
@@ -21,6 +20,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param isbn
      * @return
      */
-    @Query("SELECT b FROM Book b WHERE b.isbn = ?1")
     Optional<Book> findByIsbn(String isbn);
 }

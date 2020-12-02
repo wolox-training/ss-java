@@ -29,7 +29,7 @@ public class Constants {
     /**
      * Constant for connect with external service
      */
-    public static String URL = "https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&format={format}&jscmd={jscmd}";
+    public static final String URL = "url.open.library";
 
     /**
      * Constant for return type for external service
