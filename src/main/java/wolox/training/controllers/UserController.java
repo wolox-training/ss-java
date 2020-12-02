@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -146,8 +147,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/username")
-    public String getUserName(Authentication authentication) {
+    public ResponseEntity getUserName(Authentication authentication) {
         Optional<User> name = (Optional<User>) authentication.getPrincipal();
-        return name.get().getUserName();
+        if (name.isPresent()) {
+            return new ResponseEntity(name.get().getUserName(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 }
