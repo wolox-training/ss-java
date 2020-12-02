@@ -1,5 +1,6 @@
 package wolox.training.controllers;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -111,7 +112,7 @@ public class BookController {
      * @param isbn
      * @return
      */
-    @GetMapping()
+    @GetMapping("/isbn")
     public ResponseEntity findByIsbn(@RequestParam("isbn") String isbn) {
         Optional<Book> book = bookRepository.findByIsbn(isbn);
         if (!book.isPresent()) {
@@ -124,6 +125,28 @@ public class BookController {
             return new ResponseEntity(bookRepository.save(bookEntity), HttpStatus.CREATED);
         } else {
             return new ResponseEntity(book, HttpStatus.OK);
+        }
+    }
+
+    /**
+     * This method get a book by filter the Genre, Year and Publisher
+     *
+     * @param genre
+     * @param year
+     * @param publisher
+     * @return
+     */
+    @GetMapping()
+    public Iterable findBooksByGenreYearPublisher(
+            @RequestParam(value = "genre", required = true) String genre,
+            @RequestParam(value = "year", required = true) String year,
+            @RequestParam(value = "publisher", required = true) String publisher) {
+        List<Book> books = bookRepository.findByGenreAndYearAndPublisher(genre, year, publisher);
+        if (!books.isEmpty()) {
+            return books;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    Constants.NOT_FOUND);
         }
     }
 }
